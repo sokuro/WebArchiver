@@ -1,5 +1,6 @@
 import scrapy
 
+# Modified Spider to recursively follow the link to the new page. The parse() method looks for the link to the next page, builds a full absolute URL using the urljoin() method and yields a new request to the next page, registering itself as callback to handle the data extraction for the next page and to keep crawling going through all the pages.
 
 class QuotesSpider(scrapy.Spider):
     name = "quotesLink"

@@ -11,4 +11,8 @@ import scrapy
 class WarmuItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    to = scrapy.Field()
+    who = scrapy.Field()
+    heading = scrapy.Field()
+    body = scrapy.Field()
     pass

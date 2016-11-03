@@ -1,8 +1,9 @@
 import urllib
+from bs4 import BeautifulSoup
 import urlparse
 import re
-import mechanize as mechanize
-import self as self
+import pickle
+import mechanize
 
 try:
     import sys
@@ -21,17 +22,16 @@ except:
 
 class Crawler:
     def __init__(self, url, outputfile='sitemap.xml', logfile='error.log', oformat='xml'):
-    self.url = url
-    self.logfile = open(logfile, 'a')
-    self.oformat = oformat
-    self.outputfile = outputfile
+        self.url = url
+        self.logfile = open(logfile, 'a')
+        self.oformat = oformat
+        self.outputfile = outputfile
 
-
-    # create lists for the urls in que and visited urls
-    self.urls = set([url])
-    self.visited = set([url])
-    self.exts = ['htm', 'php']
-    self.allowed_regex = '\.((?!htm)(?!php)\w+)$'
+        # create lists for the urls in que and visited urls
+        self.urls = set([url])
+        self.visited = set([url])
+        self.exts = ['htm', 'php']
+        self.allowed_regex = '\.((?!htm)(?!php)\w+)$'
 
     def set_exts(self, exts):
         self.exts = exts
@@ -97,3 +97,33 @@ class Crawler:
 
             br.close()
             del (br)
+
+
+    def is_valid(self, url):
+        valid = False
+        if url in self.visited:
+            return False
+        if not self.url in url:
+            return False
+        if re.search(self.regex, url):
+            return False
+        return True
+
+
+    def errlog(self, msg):
+        self.logfile.write(msg)
+        self.logfile.write('\n')
+
+
+    def write_xml(self):
+        of = open(self.outputfile, 'w')
+        of.write('<?xml version="1.0" encoding="utf-8"?>\n')
+#        of.write(
+#            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n')
+        of.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n')
+        url_str = '<url><loc>{}</loc></url>\n'
+        while self.visited:
+            of.write(url_str.format(self.visited.pop()))
+
+        of.write('</urlset>')
+        of.close()

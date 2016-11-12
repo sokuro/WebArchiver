@@ -1,5 +1,7 @@
 from scrapy.spiders import XMLFeedSpider
 
+from ..items import WarmuItem
+
 
 class SiteSpider(XMLFeedSpider):
     name = 'site'

@@ -6,13 +6,15 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.item import Item, Field
 
-
-class WarmuItem(scrapy.Item):
+class WarmuItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    to = scrapy.Field()
-    who = scrapy.Field()
-    heading = scrapy.Field()
-    body = scrapy.Field()
+    title = Field()
+    link = Field()
+    # to = Field()
+    # who = Field()
+    # heading = Field()
+    # body = Field()
     pass

@@ -14,4 +14,3 @@ class SiteSpider(scrapy.Spider):
             title = titles.select("a/text()").extract() # XPath to call the text for the tile
             link = titles.select("@/href").extract()
             print(title, link)
-            print (title)

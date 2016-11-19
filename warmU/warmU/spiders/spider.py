@@ -11,7 +11,7 @@ class SiteSpider(scrapy.Spider):
     name = "site"
     allowed_domains = ['www.w3schools.com']
     start_urls = ["http://www.w3schools.com/xml/"]
-    itertag = 'note'
+#    itertag = 'note'
 
     # need to instantiate a WarmuItem
     def parse_node(self, selector):
@@ -21,12 +21,4 @@ class SiteSpider(scrapy.Spider):
         item['heading'] = selector.xpath('//heading/text()').extract()
         item['body'] = selector.xpath('//body/text()').extract()
         return item
-
-    def parse(self, response):
-        hxs = HtmlXPathSelector(response)
-        titles = hxs.select("//p")
-        for titles in titles:
-            title = titles.select("a/text()").extract() # XPath to call the text for the tile
-            link = titles.select("@/href").extract()
-            print(title, link)
 

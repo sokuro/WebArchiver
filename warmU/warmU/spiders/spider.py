@@ -7,14 +7,14 @@ except Exception: #ImportError
     from warmU.warmU.items import WarmuItem
 
 
-class SiteSpider(scrapy.Spider):
+class SiteSpider(XMLFeedSpider):
     name = "site"
     allowed_domains = ['www.w3schools.com']
     start_urls = ["http://www.w3schools.com/xml/"]
-#    itertag = 'note'
+    itertag = 'note'
 
     # need to instantiate a WarmuItem
-    def parse_node(self, selector):
+    def parse_node(self, response, selector):
         item = WarmuItem()
         item['to'] = selector.xpath('//to/text()').extract()
         item['who'] = selector.xpath('//from/text()').extract()

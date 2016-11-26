@@ -17,4 +17,3 @@ class WarmuItem(Item):
     # who = Field()
     # heading = Field()
     # body = Field()
-    pass

@@ -1,21 +1,25 @@
-# from scrapy.spider import BaseSpider
 import scrapy
 from scrapy.selector import HtmlXPathSelector
-from warmU.warmU.items import WarmuItem
+
+try:
+    from ..items import WarmuItem
+except Exception: #ImportError
+    from warmU.warmU.items import WarmuItem
 
 
 class SiteSpider(scrapy.Spider):
     name = "site"
-    allowed_domains = ['www.w3schools.com']
-    start_urls = ["http://www.w3schools.com/xml/"]
+    allowed_domains = ["craigslist.org"]
+    start_urls = ["http://sfbay.craigslist.org/search/npo"]
 
+    # need to instantiate a WarmuItem
     def parse(self, response):
         hxs = HtmlXPathSelector(response)
-        titles = hxs.xpath("//p")
+        titles = hxs.xpath("//span[@class='pl']")
         items = []
         for titles in titles:
             item = WarmuItem()
             item["title"] = titles.select("a/text()").extract()
-            item["link"] = titles.select("a/@href").exctract()
+            item["link"] = titles.select("a/@href").extract()
             items.append(item)
         return items
